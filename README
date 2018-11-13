@@ -4,6 +4,6 @@
 # 	W.Richard Stevens  Bill Fenner  Andrew M.Rudoff
 #
 # We can get the source code from www.unpbook.com
-#
-#
+# download:  $wget www.unpbook.com/unpv13e.tar.gz
+# unzip:     $tar -xf unpv13e.tar.gz
 #
