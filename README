@@ -7,3 +7,6 @@
 # download:  $wget www.unpbook.com/unpv13e.tar.gz
 # unzip:     $tar -xf unpv13e.tar.gz
 #
+# The location of some shared files in prog
+# unp.h:	lib/unp.h
+# err_sys:	lib/error.c   sock/error.c

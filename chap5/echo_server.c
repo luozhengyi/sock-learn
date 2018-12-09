@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <strings.h> 	//bzero()
+#include <sys/socket.h>	//socket() bind() listen() accept() sockaddr INADDR_ANY
+#include <netinet/in.h>	//sockaddr_in
+#include <errno.h>	//global variable errno
+
+
+
+#ifndef SA
+	#define SA struct sockaddr
+#endif
+
+#define SRV_PORT 7887
+#define MAX_CONN 1024
+
+void str_echo(int sockfd)
+{
+	ssize_t n;
+	
+}
+
+
+int main(int argc, char* argv[])
+{
+	int iRet = -1;
+
+	int listenfd, connfd;
+	struct sockaddr_in addrSrv, addrCli;
+	socklen_t lenCli;
+	pid_t childpid;
+
+	if( (listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+		printf("create socekt fd failed!\n");
+		return iRet;
+	}
+	
+	bzero(&addrSrv,sizeof(struct sockaddr_in));
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(SRV_PORT);
+	addrSrv.sin_addr.s_addr = htonl(INADDR_ANY);
+	
+	if(bind(listenfd, (SA*)&addrSrv, sizeof(addrSrv)) < 0)
+	{	
+		printf("bind socket fd failed!\n");
+		return iRet;
+	}
+
+	if(listen(listenfd,MAX_CONN) < 0)
+	{
+		printf("listen socket fd failed!\n");
+		return iRet;
+	}
+	for(;;)
+	{
+		lenCli = sizeof(addrCli);
+		if( (connfd = accept(listenfd, (SA*) &addrCli, &lenCli)) < 0)
+		{
+			printf("accept failed!\n");
+			return iRet;	
+		}
+
+		if( (childpid = fork()) == 0)	// child process
+		{
+			close(listenfd);
+			str_echo(connfd);
+			exit(0);
+		}
+		else if(childpid > 0)	// parent process
+		{
+			close(connfd);
+		}
+	}
+
+	return iRet;
+}
