@@ -3,8 +3,9 @@
 #include <sys/socket.h>	//socket() bind() listen() accept() sockaddr INADDR_ANY
 #include <netinet/in.h>	//sockaddr_in
 #include <errno.h>	//global variable errno
+#include <stdlib.h>	//exit()
 
-
+#define MAXLINE 1024
 
 #ifndef SA
 	#define SA struct sockaddr
@@ -16,7 +17,22 @@
 void str_echo(int sockfd)
 {
 	ssize_t n;
-	
+	char buf[MAXLINE];
+again:
+	while( (n = read(sockfd, buf, MAXLINE)) >0)
+	{
+		printf("RECV: %s",buf);
+		write(sockfd, buf, n);	
+		memset(buf, 0, MAXLINE);
+	}
+
+	if(n < 0 && errno == EINTR)
+		goto again;
+	else if(n < 0)
+	{
+		printf("str_echo: read error\n");
+		exit(-1);
+	}
 }
 
 
