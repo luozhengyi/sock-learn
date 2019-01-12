@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <strings.h> 	//bzero()
+#include <string.h>
 #include <sys/socket.h>	//socket() bind() listen() accept() sockaddr INADDR_ANY
 #include <netinet/in.h>	//sockaddr_in
 #include <errno.h>	//global variable errno

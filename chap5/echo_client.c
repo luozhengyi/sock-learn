@@ -57,6 +57,6 @@ int main(int argc, char* argv[])
   	}		
 
 	str_cli(stdin, sockfd);
-
+	close(sockfd);
 	return iRet;
 }
