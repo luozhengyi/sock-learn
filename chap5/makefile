@@ -1,14 +1,14 @@
-CC = gcc
-CXX = g++
+CC := gcc
+CXX := g++
 
 # depend on director
-DEP_DIR = ..
+DEP_DIR := ..
 
-ALL: echo_client.out echo_server.out
+ALL: echo_client.out echo_server.out clean
 .PHONY: ALL
 
-OBJ1 = echo_client.o mysock.o
-OBJ2 = echo_server.o mysock.o
+OBJ1 := echo_client.o mysock.o
+OBJ2 := echo_server.o mysock.o
 
 # generate echo_client.out
 echo_client.out: $(OBJ1)

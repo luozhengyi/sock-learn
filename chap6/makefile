@@ -1,12 +1,12 @@
-CC = gcc
-CXX = g++
+CC := gcc
+CXX := g++
 
-ALL: server.out client.out 
+ALL: server.out client.out clean
 .PHONY: ALL
 
 
-OBJ1 = select_echo_client.o mysock.o
-OBJ2 = select_echo_server.o mysock.o
+OBJ1 := select_echo_client.o mysock.o
+OBJ2 := select_echo_server.o mysock.o
 
 # Generate slect_echo_client.out
 client.out: $(OBJ1)
