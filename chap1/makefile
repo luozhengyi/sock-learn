@@ -1,5 +1,5 @@
-
-CXX = gcc
+CC := gcc
+CXX := g++
 
 .PHONY:ALL
 
