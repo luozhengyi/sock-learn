@@ -1,10 +1,12 @@
 #include <stdio.h>
-#include <strings.h> 	//bzero()
+#include <strings.h> 	// bzero()
 #include <string.h>
-#include <sys/socket.h>	//socket() bind() listen() accept() sockaddr INADDR_ANY
-#include <netinet/in.h>	//sockaddr_in
-#include <errno.h>	//global variable errno
-#include <stdlib.h>	//exit()
+#include <sys/socket.h>	// socket() bind() listen() accept() sockaddr INADDR_ANY
+#include <netinet/in.h>	// sockaddr_in
+#include <errno.h>	// global variable errno
+#include <stdlib.h>	// exit()
+#include <signal.h> 	// signal()
+#include <sys/wait.h>	// wait()
 
 #define MAXLINE 1024
 
@@ -36,6 +38,15 @@ again:
 	}
 }
 
+void handler(int sigNum){
+	pid_t pid;
+	int stat;
+
+	pid = wait(&stat);
+	printf("child %d terminated\n", pid);
+	return;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -51,7 +62,7 @@ int main(int argc, char* argv[])
 		printf("create socekt fd failed!\n");
 		return iRet;
 	}
-	
+		
 	bzero(&addrSrv,sizeof(struct sockaddr_in));
 	addrSrv.sin_family = AF_INET;
 	addrSrv.sin_port = htons(SRV_PORT);
@@ -68,6 +79,11 @@ int main(int argc, char* argv[])
 		printf("listen socket fd failed!\n");
 		return iRet;
 	}
+
+	
+	// add signal handler
+	signal(SIGCHLD,handler);
+
 	for(;;)
 	{
 		lenCli = sizeof(addrCli);
