@@ -89,8 +89,13 @@ int main(int argc, char* argv[])
 		lenCli = sizeof(addrCli);
 		if( (connfd = accept(listenfd, (SA*) &addrCli, &lenCli)) < 0)
 		{
-			printf("accept failed!\n");
-			return iRet;	
+			if(errno == EINTR)
+				continue;
+			else{
+				printf("accept failed!\n");
+				return iRet;	
+			}
+				
 		}
 
 		if( (childpid = fork()) == 0)	// child process
