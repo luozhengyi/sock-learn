@@ -3,6 +3,7 @@
 #include <string.h>
 #include <strings.h>	// bzero()
 #include <netinet/in.h>	// sockaddr_in
+#include <unistd.h>
 #include <errno.h>
 #include <sys/select.h>
 

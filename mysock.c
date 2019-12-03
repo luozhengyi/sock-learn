@@ -1,5 +1,6 @@
 #include "mysock.h"
 #include <errno.h>	/* errno */
+#include <unistd.h>
 #include <sys/socket.h>	/* read write */
 
 

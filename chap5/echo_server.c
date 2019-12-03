@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/socket.h>	// socket() bind() listen() accept() sockaddr INADDR_ANY
 #include <netinet/in.h>	// sockaddr_in
+#include <unistd.h>	// close()
 #include <errno.h>	// global variable errno
 #include <stdlib.h>	// exit()
 #include <signal.h> 	// signal()
@@ -42,8 +43,9 @@ void handler(int sigNum){
 	pid_t pid;
 	int stat;
 
-	pid = wait(&stat);
-	printf("child %d terminated\n", pid);
+	// pid = wait(&stat);
+	while( (pid = waitpid(-1, &stat, WNOHANG)) > 0)
+		printf("child %d terminated\n", pid);
 	return;
 }
 
